@@ -11,8 +11,9 @@
 #import "APIManager.h"
 #import "TweetCell.h"
 #import "Tweet.h"
+#import "ComposeViewController.h"
 
-@interface TimelineViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface TimelineViewController () <ComposeViewControllerDelegate, UITableViewDelegate, UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSArray *tweets;
@@ -24,26 +25,28 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.tableView.dataSource = self;
+    self.tableView.dataSource = self; // Step 3: View controller becomes its dataSource and delegate in viewDidLoad
     self.tableView.delegate = self;
     
     // Get timeline
-    [[APIManager shared] getHomeTimelineWithCompletion:^(NSArray *tweets, NSError *error) {
+    [[APIManager shared] getHomeTimelineWithCompletion:^(NSArray *tweets, NSError *error) { //Step 4: Make an API request
         if (tweets) {
-            self.tweets = tweets;
+            self.tweets = tweets; //Step 6: View controller stores that data passed into the completion handler
+
             NSLog(@"😎😎😎 Successfully loaded home timeline");
             for (Tweet *x in tweets) {
                 NSString *text = x.text;
                 NSLog(@"%@", text);
             }
-            [self.tableView reloadData];
+            [self.tableView reloadData]; //Step 7: Reload the table view
         } else {
             NSLog(@"😫😫😫 Error getting home timeline: %@", error.localizedDescription);
         }
     }];
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(beginRefresh:) forControlEvents:UIControlEventValueChanged];
-    [self.tableView insertSubview:refreshControl atIndex:0];}
+    [self.tableView insertSubview:refreshControl atIndex:0];
+}
 
 
 // Makes a network request to get updated data
@@ -87,8 +90,9 @@
 */
 
 
-- (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    TweetCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TweetCell"];
+- (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath { //Step 8: Table view asks its dataSource for numberOfRows & cellForRowAt
+
+    TweetCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TweetCell"];  //Step 10 cellForRow returns an instance of the custom cell with that reuse identifier with it’s elements populated with data at the index asked for
     Tweet *tweet = self.tweets[indexPath.row];
     cell.nameLabel.text = tweet.user.name;
     cell.handleLabel.text = tweet.user.screenName;
@@ -97,12 +101,23 @@
     NSURL *profileImageURL = [NSURL URLWithString:fullProfileImageURLString];
     cell.AVIView.image = nil; 
     [cell.AVIView setImageWithURL:profileImageURL];
+    cell.AVIView.layer.cornerRadius = 25;
+    cell.AVIView.layer.masksToBounds = YES;
     return cell;
 }
 
-- (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.tweets.count;
+- (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section { //Step 8: Table view asks its dataSource for numberOfRows & cellForRowAt
+    return self.tweets.count; //Step 8: numberOfRows returns the number of items returned from the API
 }
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    UINavigationController *navigationController = [segue destinationViewController];
+    ComposeViewController *composeController = (ComposeViewController*)navigationController.topViewController;
+    composeController.delegate = self;
+}
+
+
+
 
 
 @end
