@@ -119,7 +119,7 @@
 }
 
 - (void) didTweet:(Tweet *)tweet{
-    [self.tweets addObject:tweet];
+    [self.tweets insertObject:tweet atIndex:0];
     [self.tableView reloadData];
 
 }
