@@ -40,19 +40,21 @@
     [[APIManager shared] postStatusWithText:self.tweetTextView.text completion:^(Tweet *tweet, NSError *error) {
         if (tweet) {
             NSLog(@"😎😎😎 Successfully tweeting");
+            [self.delegate didTweet:tweet];
+            [self dismissViewControllerAnimated:true completion:nil];
         } else {
             NSLog(@"😫😫😫 Error tweeting: %@", error.localizedDescription);
         }
     }];
-    [[APIManager shared]postStatusWithText:@"This is my tweet 😀" completion:^(Tweet *tweet, NSError *error) {
-        if(error){
-            NSLog(@"Error composing Tweet: %@", error.localizedDescription);
-        }
-        else{
-            [self.delegate didTweet:tweet];
-            NSLog(@"Compose Tweet Success!");
-        }
-    }];
+//    [[APIManager shared]postStatusWithText:@"This is my tweet 😀" completion:^(Tweet *tweet, NSError *error) {
+//        if(error){
+//            NSLog(@"Error composing Tweet: %@", error.localizedDescription);
+//        }
+//        else{
+//            [self.delegate didTweet:tweet];
+//            NSLog(@"Compose Tweet Success!");
+//        }
+//    }];
 }
 
 

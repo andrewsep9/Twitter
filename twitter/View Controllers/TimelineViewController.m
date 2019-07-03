@@ -16,7 +16,7 @@
 @interface TimelineViewController () <ComposeViewControllerDelegate, UITableViewDelegate, UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (nonatomic, strong) NSArray *tweets;
+@property (nonatomic, strong) NSMutableArray *tweets;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 
 @end
@@ -25,11 +25,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self.tableView reloadData];
+    
     self.tableView.dataSource = self; // Step 3: View controller becomes its dataSource and delegate in viewDidLoad
     self.tableView.delegate = self;
     
     // Get timeline
-    [[APIManager shared] getHomeTimelineWithCompletion:^(NSArray *tweets, NSError *error) { //Step 4: Make an API request
+    [[APIManager shared] getHomeTimelineWithCompletion:^(NSMutableArray *tweets, NSError *error) { //Step 4: Make an API request
         if (tweets) {
             self.tweets = tweets; //Step 6: View controller stores that data passed into the completion handler
 
@@ -53,7 +55,7 @@
 // Updates the tableView with the new data
 // Hides the RefreshControl
 - (void)beginRefresh:(UIRefreshControl *)refreshControl {
-    [[APIManager shared] getHomeTimelineWithCompletion:^(NSArray *tweets, NSError *error) {
+    [[APIManager shared] getHomeTimelineWithCompletion:^(NSMutableArray *tweets, NSError *error) {
         if (tweets) {
             self.tweets = tweets;
             NSLog(@"😎😎😎 Successfully loaded home timeline");
@@ -116,7 +118,11 @@
     composeController.delegate = self;
 }
 
+- (void) didTweet:(Tweet *)tweet{
+    [self.tweets addObject:tweet];
+    [self.tableView reloadData];
 
+}
 
 
 
