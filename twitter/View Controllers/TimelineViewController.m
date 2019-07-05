@@ -12,6 +12,8 @@
 #import "TweetCell.h"
 #import "Tweet.h"
 #import "ComposeViewController.h"
+#import "AppDelegate.h"
+#import "LoginViewController.h"
 
 @interface TimelineViewController () <ComposeViewControllerDelegate, UITableViewDelegate, UITableViewDataSource>
 
@@ -96,15 +98,32 @@
 
     TweetCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TweetCell"];  //Step 10 cellForRow returns an instance of the custom cell with that reuse identifier with it’s elements populated with data at the index asked for
     Tweet *tweet = self.tweets[indexPath.row];
+    cell.tweet = tweet;
+    if (cell.tweet.favorited){
+        [cell.favoriteButton setImage:[UIImage imageNamed:@"favor-icon-red"] forState:UIControlStateNormal];
+        [cell.favoriteButton setSelected:NO];
+    }
+    else{
+        [cell.favoriteButton setImage:[UIImage imageNamed:@"favor-icon"] forState:UIControlStateNormal];
+        [cell.favoriteButton setSelected:NO];
+    }
     cell.nameLabel.text = tweet.user.name;
     cell.handleLabel.text = tweet.user.screenName;
     cell.tweetLabel.text = tweet.text;
+    cell.retweetCountLabel.text = [NSString stringWithFormat:@"%d",tweet.retweetCount];
+    cell.favoriteCountLabel.text = [NSString stringWithFormat:@"%d",tweet.favoriteCount];
     NSString *fullProfileImageURLString = tweet.user.profileImage;
     NSURL *profileImageURL = [NSURL URLWithString:fullProfileImageURLString];
     cell.AVIView.image = nil; 
     [cell.AVIView setImageWithURL:profileImageURL];
     cell.AVIView.layer.cornerRadius = 25;
     cell.AVIView.layer.masksToBounds = YES;
+    cell.favoriteButton.layer.cornerRadius = 15;
+    cell.favoriteButton.layer.masksToBounds = YES;
+    cell.retweetButton.layer.cornerRadius = 15;
+    cell.retweetButton.layer.masksToBounds = YES;
+    
+    
     return cell;
 }
 
@@ -121,8 +140,18 @@
 - (void) didTweet:(Tweet *)tweet{
     [self.tweets insertObject:tweet atIndex:0];
     [self.tableView reloadData];
-
 }
+
+- (IBAction)logoutTabButton:(id)sender {
+    AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    LoginViewController *loginViewController = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
+    appDelegate.window.rootViewController = loginViewController;
+    [[APIManager shared] logout];
+    
+}
+
 
 
 
