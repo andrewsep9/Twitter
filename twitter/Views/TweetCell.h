@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface TweetCell : UITableViewCell
 
 @property (strong, nonatomic) Tweet *tweet;
+@property (strong, nonatomic) Tweet *retweet;
 @property (weak, nonatomic) IBOutlet UIImageView *AVIView;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *handleLabel;

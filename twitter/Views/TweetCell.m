@@ -41,15 +41,23 @@
     }];
 }
 
-//- (IBAction)didTapRetweet:(id)sender {
-//    self.tweet.retweeted = YES;
-//    self.tweet.retweetCount += 1;
-//    [sender setImage:[UIImage imageNamed:@"retweet-icon-green"] forState:UIControlStateNormal];
-//    [sender setSelected:NO];
-//    self.retweetCountLabel.text = [NSString stringWithFormat:@"%d",self.tweet.retweetCount];
-//    
-//    
-//    
-//}
+- (IBAction)didTapRetweet:(id)sender {
+    self.tweet.retweeted = YES;
+    self.tweet.retweetCount += 1;
+    [sender setImage:[UIImage imageNamed:@"retweet-icon-green"] forState:UIControlStateNormal];
+    [sender setSelected:NO];
+    self.retweetCountLabel.text = [NSString stringWithFormat:@"%d",self.tweet.retweetCount];
+    [[APIManager shared] retweet:self.tweet completion:^(Tweet *retweet, NSError *error) {
+        if(error){
+            NSLog(@"Error retweeting tweet: %@", error.localizedDescription);
+        }
+        else{
+            NSLog(@"Successfully retweeted the following Tweet: %@", retweet.text);
+        }
+    }];
+
+
+    
+}
 
 @end

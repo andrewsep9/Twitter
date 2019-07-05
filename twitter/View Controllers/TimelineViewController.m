@@ -36,7 +36,7 @@
     [[APIManager shared] getHomeTimelineWithCompletion:^(NSMutableArray *tweets, NSError *error) { //Step 4: Make an API request
         if (tweets) {
             self.tweets = tweets; //Step 6: View controller stores that data passed into the completion handler
-
+            
             NSLog(@"😎😎😎 Successfully loaded home timeline");
             for (Tweet *x in tweets) {
                 NSString *text = x.text;
@@ -84,21 +84,22 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath { //Step 8: Table view asks its dataSource for numberOfRows & cellForRowAt
-
+    
     TweetCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TweetCell"];  //Step 10 cellForRow returns an instance of the custom cell with that reuse identifier with it’s elements populated with data at the index asked for
     Tweet *tweet = self.tweets[indexPath.row];
     cell.tweet = tweet;
+    cell.retweet = tweet;
     if (cell.tweet.favorited){
         [cell.favoriteButton setImage:[UIImage imageNamed:@"favor-icon-red"] forState:UIControlStateNormal];
         [cell.favoriteButton setSelected:NO];
@@ -107,52 +108,58 @@
         [cell.favoriteButton setImage:[UIImage imageNamed:@"favor-icon"] forState:UIControlStateNormal];
         [cell.favoriteButton setSelected:NO];
     }
+    if (cell.tweet.retweeted){
+        [cell.retweetButton setImage:[UIImage imageNamed:@"retweet-icon-green"] forState:UIControlStateNormal];
+        [cell.retweetButton setSelected:NO];
+    }
+    else{
+        [cell.retweetButton setImage:[UIImage imageNamed:@"retweet-icon"] forState:UIControlStateNormal];
+        [cell.retweetButton setSelected:NO];
+    }
     cell.nameLabel.text = tweet.user.name;
-    cell.handleLabel.text = tweet.user.screenName;
-    cell.tweetLabel.text = tweet.text;
-    cell.retweetCountLabel.text = [NSString stringWithFormat:@"%d",tweet.retweetCount];
-    cell.favoriteCountLabel.text = [NSString stringWithFormat:@"%d",tweet.favoriteCount];
-    NSString *fullProfileImageURLString = tweet.user.profileImage;
-    NSURL *profileImageURL = [NSURL URLWithString:fullProfileImageURLString];
-    cell.AVIView.image = nil; 
-    [cell.AVIView setImageWithURL:profileImageURL];
-    cell.AVIView.layer.cornerRadius = 25;
-    cell.AVIView.layer.masksToBounds = YES;
-    cell.favoriteButton.layer.cornerRadius = 15;
-    cell.favoriteButton.layer.masksToBounds = YES;
-    cell.retweetButton.layer.cornerRadius = 15;
-    cell.retweetButton.layer.masksToBounds = YES;
-    
-    
-    return cell;
-}
+        cell.handleLabel.text = tweet.user.screenName;
+        cell.tweetLabel.text = tweet.text;
+        cell.retweetCountLabel.text = [NSString stringWithFormat:@"%d",tweet.retweetCount];
+        cell.favoriteCountLabel.text = [NSString stringWithFormat:@"%d",tweet.favoriteCount];
+        NSString *fullProfileImageURLString = tweet.user.profileImage;
+        NSURL *profileImageURL = [NSURL URLWithString:fullProfileImageURLString];
+        cell.AVIView.image = nil;
+        [cell.AVIView setImageWithURL:profileImageURL];
+        cell.AVIView.layer.cornerRadius = 25;
+        cell.AVIView.layer.masksToBounds = YES;
+        cell.favoriteButton.layer.cornerRadius = 15;
+        cell.favoriteButton.layer.masksToBounds = YES;
+        cell.retweetButton.layer.cornerRadius = 15;
+        cell.retweetButton.layer.masksToBounds = YES;
+        return cell;
 
+}
+    
+    
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section { //Step 8: Table view asks its dataSource for numberOfRows & cellForRowAt
-    return self.tweets.count; //Step 8: numberOfRows returns the number of items returned from the API
-}
-
+        return self.tweets.count; //Step 8: numberOfRows returns the number of items returned from the API
+    }
+    
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    UINavigationController *navigationController = [segue destinationViewController];
-    ComposeViewController *composeController = (ComposeViewController*)navigationController.topViewController;
-    composeController.delegate = self;
-}
-
-- (void) didTweet:(Tweet *)tweet{
-    [self.tweets insertObject:tweet atIndex:0];
-    [self.tableView reloadData];
-}
-
-- (IBAction)logoutTabButton:(id)sender {
-    AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        UINavigationController *navigationController = [segue destinationViewController];
+        ComposeViewController *composeController = (ComposeViewController*)navigationController.topViewController;
+        composeController.delegate = self;
+    }
     
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    LoginViewController *loginViewController = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
-    appDelegate.window.rootViewController = loginViewController;
-    [[APIManager shared] logout];
+    - (void) didTweet:(Tweet *)tweet{
+        [self.tweets insertObject:tweet atIndex:0];
+        [self.tableView reloadData];
+    }
     
-}
-
-
-
+    - (IBAction)logoutTabButton:(id)sender {
+        AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        LoginViewController *loginViewController = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
+        appDelegate.window.rootViewController = loginViewController;
+        [[APIManager shared] logout];
+        
+    }
 
 @end
+
