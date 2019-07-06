@@ -1,4 +1,4 @@
-# Project 3 - *Name of App Here*
+# Project 3 - HeWentHomeTwitter
 
 HeWentHomeTwitter is a basic twitter app to read and compose tweets the [Twitter API](https://apps.twitter.com/).
 
@@ -50,7 +50,7 @@ Please list two areas of the assignment you'd like to **discuss further with you
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://g.recordit.co/qzhB46rJ7a.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='http://g.recordit.co/mFp1zZBj3O.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 
 ## Notes
