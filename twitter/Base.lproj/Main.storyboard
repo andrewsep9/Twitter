@@ -249,7 +249,7 @@
                         <viewLayoutGuide key="safeArea" id="v2m-gi-0wh"/>
                     </view>
                     <navigationItem key="navigationItem" id="s5u-RY-xvL">
-                        <barButtonItem key="leftBarButtonItem" title="X" id="Wal-1U-W4v">
+                        <barButtonItem key="leftBarButtonItem" title="X" image="close-icon" id="Wal-1U-W4v">
                             <connections>
                                 <action selector="closeBarButton:" destination="jxC-GS-FSb" id="duq-qN-jnG"/>
                             </connections>
@@ -307,6 +307,7 @@
     </scenes>
     <resources>
         <image name="TwitterLogoBlue" width="133.33332824707031" height="133.33332824707031"/>
+        <image name="close-icon" width="26" height="24"/>
         <image name="edit-icon" width="30" height="27"/>
         <image name="favor-icon" width="30" height="30"/>
         <image name="retweet-icon" width="30" height="30"/>
