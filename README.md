@@ -1,22 +1,22 @@
 # Project 3 - *Name of App Here*
 
-**Name of your app** is a basic twitter app to read and compose tweets the [Twitter API](https://apps.twitter.com/).
+HeWentHomeTwitter is a basic twitter app to read and compose tweets the [Twitter API](https://apps.twitter.com/).
 
-Time spent: **X** hours spent in total
+Time spent: **20** hours spent in total
 
 ## User Stories
 
 The following **required** functionality is completed:
 
-- [ ] User sees app icon in home screen and styled launch screen
-- [ ] User can sign in using OAuth login flow
-- [ ] User can Logout
-- [ ] User can view last 20 tweets from their home timeline
-- [ ] In the home timeline, user can view tweet with the user profile picture, username, tweet text, and timestamp.
-- [ ] User can pull to refresh.
-- [ ] User can tap the retweet and favorite buttons in a tweet cell to retweet and/or favorite a tweet.
-- [ ] User can compose a new tweet by tapping on a compose button.
-- [ ] Using AutoLayout, the Tweet cell should adjust it's layout for iPhone 7, Plus and SE device sizes as well as accommodate device rotation.
+- [X] User sees app icon in home screen and styled launch screen
+- [X] User can sign in using OAuth login flow
+- [X] User can Logout
+- [X] User can view last 20 tweets from their home timeline
+- [X] In the home timeline, user can view tweet with the user profile picture, username, tweet text, and timestamp.
+- [X] User can pull to refresh.
+- [X] User can tap the retweet and favorite buttons in a tweet cell to retweet and/or favorite a tweet.
+- [X] User can compose a new tweet by tapping on a compose button.
+- [X] Using AutoLayout, the Tweet cell should adjust it's layout for iPhone 7, Plus and SE device sizes as well as accommodate device rotation.
 
 The following **optional** features are implemented:
 
@@ -26,7 +26,7 @@ The following **optional** features are implemented:
 - Contains a section with the users basic stats: # tweets, # following, # followers
 - [ ] Profile view should include that user's timeline
 - [ ] User should display the relative timestamp for each tweet "8m", "7h"
-- [ ] User should be able to unretweet and unfavorite and should decrement the retweet and favorite count. Refer to [[this guide|unretweeting]] for help on implementing unretweeting.
+- [X] User should be able to unretweet and unfavorite and should decrement the retweet and favorite count. Refer to [[this guide|unretweeting]] for help on implementing unretweeting.
 - [ ] Links in tweets are clickable.
 - [ ] User can tap the profile image in any tweet to see another user's profile
 - Contains the user header view: picture and tagline
@@ -40,26 +40,22 @@ The following **optional** features are implemented:
 - [ ] Profile Page: pulling down the profile page should blur and resize the header image. (**4 points**)
 
 
-The following **additional** features are implemented:
-
-- [ ] List anything else that you can get done to improve the app functionality!
-
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
-1.
-2.
+1. I would like to know more about how the methods described in my APIManager work. I have a high-level understanding of the APIManager making requests but don't understand exactly how it makes these requests. 
+
+2. I would like to discuss when to create different models. In this app, we use two models: User and Tweet. After having used these models, I understand the necessity of having both in this app but would like to know more on how many models to make in future apps and why. 
 
 ## Video Walkthrough
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='http://g.recordit.co/qzhB46rJ7a.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
-GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
 
-Describe any challenges encountered while building the app.
+While building the app, I will say my biggest challenge was trying to progress forward while XCode was acting buggy. I kept getting errors saying "APIManager.h not found" even though I was looking right at the APIManager on my screen. I kept having to remove then reimport files, clean my build, and quit out of xcode just so my code would work, and even then these 3 solution attempts didn't always work. This is the app that really helped me understand how classes and methods work in Objective-C. This is the app I've felt most comfortable with, and I was able to help other interns troubleshoot their errors and complete some required features. I also felt most independent with this app because even though I still asked for help from the instructors, I was able to solve many of my problems on my own and with the help of Google. 
 
 ## Credits
 
@@ -69,7 +65,7 @@ List an 3rd party libraries, icons, graphics, or other assets you used in your a
 
 ## License
 
-Copyright [yyyy] [name of copyright owner]
+Copyright 2019 Andrew Sepulveda
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
